@@ -208,7 +208,7 @@ def init_session_state() -> None:
 
 st.set_page_config(
     page_title="Autobiography and Portfolio | CSIT 349 Applied AI",
-    page_icon="assets/photo.png",
+    page_icon="assets/favicon.svg",
     layout="wide",
     initial_sidebar_state="expanded"
 )
