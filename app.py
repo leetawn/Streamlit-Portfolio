@@ -208,7 +208,7 @@ def init_session_state() -> None:
 
 st.set_page_config(
     page_title="Autobiography and Portfolio | CSIT 349 Applied AI",
-    page_icon="assets/favicon.svg",
+    page_icon="assets/photo.png",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -220,9 +220,7 @@ photo_file = get_or_create_photo("assets/photo.png")
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
-
-    /* ── Local JetBrains Mono Fallback Declarations ─────────── */
+    /* ── Local JetBrains Mono Font Declarations ──────────────── */
     @font-face {
         font-family: 'JetBrains Mono';
         src: url('/app/static/fonts/JetBrainsMono-Regular.woff2') format('woff2');
@@ -707,61 +705,15 @@ st.markdown(
         letter-spacing: 0 !important;
     }
 
-    /* ── Global Material Symbols: restore icons across expanders, sidebar, alerts ── */
-    [data-testid="stIconMaterial"],
-    [data-testid*="Icon"],
-    [data-testid="stExpanderToggleIcon"],
-    [data-testid="stExpander"] [data-testid="stIconMaterial"],
-    summary [data-testid="stIconMaterial"],
-    .material-symbols-rounded {
-        font-family: 'Material Symbols Rounded' !important;
-        font-feature-settings: 'liga' 1 !important;
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24 !important;
-        display: inline-block !important;
-        line-height: 1 !important;
-        letter-spacing: normal !important;
-        text-transform: none !important;
-        white-space: nowrap !important;
-        word-wrap: normal !important;
-        direction: ltr !important;
-        vertical-align: middle !important;
-    }
-
+    /* ── Sidebar collapse / expand button: restore Material Symbols ligature ── */
     [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
     [data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"],
     [data-testid*="Sidebar"] button [data-testid="stIconMaterial"] {
+        font-family: 'Material Symbols Rounded' !important;
+        font-feature-settings: 'liga' 1 !important;
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24 !important;
         font-size: 1.3rem !important;
         color: #8B949E !important;
-    }
-
-    /* ── Expander Component Layout & Spacing ──────────────────── */
-    [data-testid="stExpander"] {
-        background: #0E131F !important;
-        border: 1px solid #1E2738 !important;
-        border-radius: 8px !important;
-        overflow: hidden !important;
-    }
-    [data-testid="stExpander"] summary {
-        font-family: 'JetBrains Mono', monospace !important;
-        background: #0E131F !important;
-        color: #CBD5E1 !important;
-        padding: 10px 14px !important;
-        border-radius: 8px !important;
-        gap: 10px !important;
-        transition: background 0.15s ease, color 0.15s ease !important;
-    }
-    [data-testid="stExpander"] summary:hover {
-        background: #141B2B !important;
-        color: #818CF8 !important;
-    }
-    [data-testid="stExpander"] summary [data-testid="stIconMaterial"] {
-        color: #818CF8 !important;
-        font-size: 1.25rem !important;
-        margin-right: 8px !important;
-    }
-    [data-testid="stExpanderDetails"] {
-        border-top: 1px solid #1E2738 !important;
-        padding: 14px 16px !important;
     }
 
     /* ── Multiselect: prevent tags from being clipped ────────── */
@@ -922,12 +874,11 @@ with m_col3:
         help="Current degree progression."
     )
 with m_col4:
-    total_session_likes = sum(st.session_state.project_likes.values())
     st.metric(
-        label="Project Endorsements",
-        value=total_session_likes,
-        delta=f"+{len(st.session_state.liked_projects)} session",
-        help="Interactive endorsements recorded during this browser session."
+        label="Engineering Status",
+        value="Active",
+        delta="Open for Collabs",
+        help="Current degree progression and project availability."
     )
 
 st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
@@ -1170,25 +1121,7 @@ with tab_projects:
                         unsafe_allow_html=True
                     )
                     
-                    c_btn, c_like = st.columns([1, 1])
-                    with c_btn:
-                        st.link_button("View Repository", project["link"], width="stretch")
-                    with c_like:
-                        proj_id = project["id"]
-                        current_likes = st.session_state.project_likes[proj_id]
-                        has_liked = proj_id in st.session_state.liked_projects
-                        
-                        btn_label = f"Endorsed ({current_likes})" if has_liked else f"Endorse ({current_likes})"
-                        if st.button(btn_label, key=f"like_{proj_id}", width="stretch"):
-                            if has_liked:
-                                st.session_state.project_likes[proj_id] -= 1
-                                st.session_state.liked_projects.remove(proj_id)
-                                st.toast(f"Endorsement removed for {project['title']}.")
-                            else:
-                                st.session_state.project_likes[proj_id] += 1
-                                st.session_state.liked_projects.add(proj_id)
-                                st.toast(f"Endorsement recorded for {project['title']}.")
-                            st.rerun()
+                    st.link_button("View Repository", project["link"], width="stretch")
 
 
 # ------------------------------------------------------------------------------

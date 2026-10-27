@@ -52,11 +52,6 @@ def test_app_smoke():
     tool_ms.set_value(["C", "Godot"]).run()
     assert not at.exception, f"Projects multiselect failed: {at.exception}"
     
-    # Test project like button
-    like_btn = [b for b in at.button if b.key == "like_proj_1"][0]
-    like_btn.click().run()
-    assert not at.exception, f"Project like failed: {at.exception}"
-    
     # Test contact form submission
     at.text_input[0].input("Jane Doe")
     at.text_input[1].input("jane@example.com")
