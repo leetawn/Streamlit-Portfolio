@@ -882,9 +882,7 @@ st.markdown(
                 <span class="t-dot t-dot-red"></span>
                 <span class="t-dot t-dot-yellow"></span>
                 <span class="t-dot t-dot-green"></span>
-                <span class="terminal-path">~/csit349-applied-ai/portfolio.py</span>
             </div>
-            <div class="terminal-branch">git:main*</div>
         </div>
         <div class="terminal-content">
             <div class="terminal-hero-title">{PERSONAL_INFO['name']}</div>
